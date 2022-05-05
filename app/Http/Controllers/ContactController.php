@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\NgWord;
+use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -17,15 +18,15 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        if (!$request->has('name')) {
+        if (!$request->name) {
             return response('お名前を入力してください。', 400);
         }
 
-        if (!$request->has('email')) {
+        if (!$request->email) {
             return response('メールアドレスを入力してください。', 400);
         }
 
-        if (!$request->has('content')) {
+        if (!$request->content) {
             return response('お問い合わせ内容を入力してください。', 400);
         }
 
