@@ -43,7 +43,8 @@ class ContactController extends Controller
         Contact::create([
             'name' => $name,
             'email' => $email,
-            'content' => $content
+            'content' => $content,
+            'read_flag' => false
         ]);
 
         return response('OK', 200);
