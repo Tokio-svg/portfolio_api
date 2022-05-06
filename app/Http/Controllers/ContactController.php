@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\NgWord;
-use Illuminate\Support\Facades\Log;
 
 class ContactController extends Controller
 {
@@ -35,9 +34,10 @@ class ContactController extends Controller
         $content = $request->content;
         $ng_words = NgWord::all()->pluck('ng_word')->toArray();
 
-        $include_keyword = in_array($content, $ng_words, true);
-        if ($include_keyword) {
-            return response('不適切な単語が含まれている可能性があります。', 400);
+        for($i=0; $i<count($ng_words); $i++) {
+            if (strpos($content, $ng_words[$i]) !== false) {
+                return response('不適切な単語が含まれている可能性があります。', 400);
+            }
         }
 
         Contact::create([
