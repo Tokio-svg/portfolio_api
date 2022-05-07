@@ -5,43 +5,53 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>管理画面</title>
+  <link rel="stylesheet" href="{{asset('/css/destyle.css')}}">
+  <link rel="stylesheet" href="{{asset('/css/admin.css')}}">
 </head>
 <body>
-  <table>
-    <tr>
-      <th>ID</th>
-      <th>name</th>
-      <th>email</th>
-      <th>content</th>
-      <th>open</th>
-      <th></th>
-    </tr>
-    @foreach($contacts as $contact)
+  <div class="content__container">
+
+    <div>
+      {{$contacts->appends(request()->query())->links('vendor.pagination.default_custom')}}
+    </div>
+
+    <table class="contacts__table">
       <tr>
-        <td>{{ $contact->id }}</td>
-        <td>{{ $contact->name }}</td>
-        <td>{{ $contact->email }}</td>
-        <td>{{ $contact->content }}</td>
-        <td>
-          @if(!$contact->read_flag)
-            <form action="/read" method="post">
+        <th></th>
+        <th>ID</th>
+        <th>name</th>
+        <th>email</th>
+        <th>content</th>
+        <th>open</th>
+      </tr>
+      @foreach($contacts as $contact)
+        <tr>
+          <td class="td__button">
+            <form action="/delete" method="post">
               @csrf
               <input type="hidden" name="id" value="{{$contact->id}}">
-              <input type="submit" value="OK" class="submit__read">
+              <input type="submit" value="✖" class="submit__delete">
             </form>
-          @else
-            既読
-          @endif
-        </td>
-        <td>
-          <form action="/delete" method="post">
-            @csrf
-            <input type="hidden" name="id" value="{{$contact->id}}">
-            <input type="submit" value="削除" class="submit__delete">
-          </form>
-        </td>
-      </tr>
-    @endforeach
-  </table>
+          </td>
+          <td>{{ $contact->id }}</td>
+          <td>{{ $contact->name }}</td>
+          <td>{{ $contact->email }}</td>
+          <td>{{ $contact->content }}</td>
+          <td class="td__button">
+            @if(!$contact->read_flag)
+              <form action="/read" method="post">
+                @csrf
+                <input type="hidden" name="id" value="{{$contact->id}}">
+                <input type="submit" value="OK" class="submit__read">
+              </form>
+            @else
+              既読
+            @endif
+          </td>
+        </tr>
+      @endforeach
+    </table>
+
+  </div>
 </body>
 </html>

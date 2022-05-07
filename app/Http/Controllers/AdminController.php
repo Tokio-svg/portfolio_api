@@ -13,7 +13,7 @@ class AdminController extends Controller
      *
      */
     public function index(Request $request) {
-        $contacts = Contact::all();
+        $contacts = Contact::paginate(20);
 
         return view('index', [
             'contacts' => $contacts
