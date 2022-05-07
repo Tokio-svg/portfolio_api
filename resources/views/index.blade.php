@@ -11,7 +11,14 @@
 <body>
   <div class="content__container">
 
-    <div>
+    <div class="logout__container">
+      <form action="/logout" method="post">
+        @csrf
+        <button type="submit" class="button__logout">ログアウト</button>
+      </form>
+    </div>
+
+    <div class="paginate__container">
       {{$contacts->appends(request()->query())->links('vendor.pagination.default_custom')}}
     </div>
 

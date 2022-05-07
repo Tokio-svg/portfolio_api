@@ -4,6 +4,11 @@ body {
   font-size: 14px;
 }
 
+a {
+  color: blue;
+  text-decoration: underline;
+}
+
 .content__container {
   width: 80%;
   min-width: 1000px;
@@ -17,11 +22,6 @@ body {
 
 .pagination li {
   margin: 0 5px;
-}
-
-.pagination a {
-  color: blue;
-  text-decoration: underline;
 }
 
 /* テーブル */
@@ -56,7 +56,8 @@ body {
   padding: 3px 12px;
 }
 
-.submit__read:hover {
+.submit__read:hover,
+.button__logout:hover {
   background-color: rgb(115, 115, 226);
 }
 
@@ -69,4 +70,17 @@ body {
 
 .submit__delete:hover {
   background-color: rgb(255, 0, 0);
+}
+
+/* ログアウト */
+.logout__container {
+  margin-bottom: 20px;
+  text-align: end;
+}
+
+.button__logout {
+  background-color: rgb(54, 54, 160);
+  color: white;
+  border-radius: 3px;
+  padding: 6px 30px;
 }
