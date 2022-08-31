@@ -30,6 +30,6 @@ class SendReminderMail extends Mailable
     {
         return $this->view('emails.reminder')
                     ->with($this->data)
-                    ->subject('未読の問い合わせがあります');
+                    ->subject('問い合わせを受信しました');
     }
 }
