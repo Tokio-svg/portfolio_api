@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendReminderMail;
 use Illuminate\Support\Facades\Log;
-use App\Consts\NgwordsConst;
 
 class ContactController extends Controller
 {
@@ -34,13 +33,13 @@ class ContactController extends Controller
         $name = $request->name;
         $email = $request->email;
         $content = $request->content;
-        $ng_words = NgwordsConst::NG_WORDS;
+        // $ng_words = NgwordsConst::NG_WORDS;
 
-        for($i=0; $i<count($ng_words); $i++) {
-            if (strpos($content, $ng_words[$i]) !== false) {
-                return response('不適切な単語が含まれている可能性があります。', 400);
-            }
-        }
+        // for($i=0; $i<count($ng_words); $i++) {
+        //     if (strpos($content, $ng_words[$i]) !== false) {
+        //         return response('不適切な単語が含まれている可能性があります。', 400);
+        //     }
+        // }
 
         // リマインダーメールを送信
         try {
