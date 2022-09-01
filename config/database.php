@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlite'),
 
     /*
     |--------------------------------------------------------------------------
@@ -34,6 +34,12 @@ return [
     */
 
     'connections' => [
+
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_URI', 'mongodb+srv://tokioman:7mRtB5m6m1ayOaZy@cluster0.rfqjoxk.mongodb.net/?retryWrites=true&w=majority'),
+            'database' => env('DB_DATABASE'),
+        ],
 
         'sqlite' => [
             'driver' => 'sqlite',
