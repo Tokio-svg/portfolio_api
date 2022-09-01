@@ -39,6 +39,7 @@ return [
             'driver' => 'mongodb',
             'dsn' => env('DB_URI', null),
             'database' => env('DB_DATABASE'),
+            'host' => env('DB_HOST', '127.0.0.1')
         ],
 
         'sqlite' => [
