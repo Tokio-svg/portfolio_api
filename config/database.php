@@ -38,7 +38,7 @@ return [
         'mongodb' => [
             'driver' => 'mongodb',
             'dsn' => env('DB_URI', null),
-            'database' => env('DB_DATABASE'),
+            'database' => env('DB_DATABASE', 'forge'),
             'host' => env('DB_HOST', '127.0.0.1')
         ],
 
