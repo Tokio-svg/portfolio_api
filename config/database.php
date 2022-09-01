@@ -37,7 +37,7 @@ return [
 
         'mongodb' => [
             'driver' => 'mongodb',
-            'dsn' => env('DB_URI', 'mongodb+srv://tokioman:7mRtB5m6m1ayOaZy@cluster0.rfqjoxk.mongodb.net/?retryWrites=true&w=majority'),
+            'dsn' => env('DB_URI', null),
             'database' => env('DB_DATABASE'),
         ],
 
