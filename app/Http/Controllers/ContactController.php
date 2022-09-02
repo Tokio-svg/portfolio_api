@@ -6,8 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendReminderMail;
 use Illuminate\Support\Facades\Log;
-use App\Models\Contact;
-use App\Models\NgWord;
+use App\Consts\NgwordsConst;
 
 class ContactController extends Controller
 {
@@ -35,20 +34,20 @@ class ContactController extends Controller
         $name = $request->name;
         $email = $request->email;
         $content = $request->content;
-        $ng_words = NgWord::all()->pluck('ng_word')->toArray();
+        // $ng_words = NgwordsConst::NG_WORDS;
 
-        for($i=0; $i<count($ng_words); $i++) {
-            if (strpos($content, $ng_words[$i]) !== false) {
-                return response('不適切な単語が含まれている可能性があります。', 400);
-            }
-        }
+        // for($i=0; $i<count($ng_words); $i++) {
+        //     if (strpos($content, $ng_words[$i]) !== false) {
+        //         return response('不適切な単語が含まれている可能性があります。', 400);
+        //     }
+        // }
 
-        Contact::create([
-            'name' => $name,
-            'email' => $email,
-            'content' => $content,
-            'read_flag' => false
-        ]);
+        // Contact::create([
+        //     'name' => $name,
+        //     'email' => $email,
+        //     'content' => $content,
+        //     'read_flag' => false
+        // ]);
 
         // リマインダーメールを送信
         try {
@@ -60,7 +59,7 @@ class ContactController extends Controller
             Mail::to('re_zell@yahoo.co.jp')->send(new SendReminderMail($data));
         } catch (\Exception $e) {
             Log::error($e->getMessage());
-            // return response('メール送信処理にエラーが発生しました。', 400);
+            return response('メール送信処理中にエラーが発生しました。', 400);
         }
 
         return response('OK', 200);
