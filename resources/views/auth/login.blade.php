@@ -52,12 +52,5 @@
                 </x-button>
             </div>
         </form>
-
-        <form action="/setup" method="post">
-            @csrf
-            <div>{{ $message }}</div>
-            <input type="text" name="key">
-            <button type="submit">SetUp</button>
-        </form>
     </x-auth-card>
 </x-guest-layout>

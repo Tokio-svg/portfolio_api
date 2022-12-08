@@ -9,6 +9,8 @@ use App\Models\NgWord;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendReminderMail;
 use Illuminate\Support\Facades\Log;
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
@@ -44,26 +46,36 @@ class ContactController extends Controller
             }
         }
 
-        Contact::create([
-            'name' => $name,
-            'email' => $email,
-            'content' => $content,
-            'read_flag' => false
-        ]);
-
-        // リマインダーメールを送信
         try {
-            $data = [
+            DB::beginTransaction();
+
+            Contact::create([
                 'name' => $name,
                 'email' => $email,
                 'content' => $content,
-            ];
-            Mail::to('re_zell@yahoo.co.jp')->send(new SendReminderMail($data));
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
+                'read_flag' => false
+            ]);
+
+            // リマインダーメールを送信
+            try {
+                $data = [
+                    'name' => $name,
+                    'email' => $email,
+                    'content' => $content,
+                ];
+                Mail::to('re_zell@yahoo.co.jp')->send(new SendReminderMail($data));
+            } catch (\Exception $e) {
+                Log::error($e->getMessage());
+            }
+            DB::commit();
+
+            return response('OK', 200);
+        } catch(Exception $ex) {
+            Log::debug($ex->getMessage());
+            DB::rollback();
+            return response('ERROR', 500);
         }
 
-        return response('OK', 200);
     }
 
 }
