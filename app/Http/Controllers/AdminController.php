@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -40,6 +42,22 @@ class AdminController extends Controller
             ->update(['read_flag' => true]);
 
         return redirect('/');
+    }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     */
+    public function setup(Request $request) {
+        if ($request->key !== env('APP_KEY')) {
+            return view('auth.login', [ 'message' => 'Invalid Key' ]);
+        }
+
+        Artisan::call('migrate:fresh');
+        Artisan::call('db:seed');
+
+        return view('auth.login', [ 'message' => 'Setup OK' ]);
     }
 
 }
