@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Contact;
-use App\Models\NgWord;
+use Illuminate\Http\Response;
+// use App\Models\Contact;
+// use App\Models\NgWord;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SendReminderMail;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +19,7 @@ class ContactController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request) :Response
     {
         if (!$request->name) {
             return response('お名前を入力してください。', 400);
@@ -35,20 +36,20 @@ class ContactController extends Controller
         $name = $request->name;
         $email = $request->email;
         $content = $request->content;
-        $ng_words = NgWord::all()->pluck('ng_word')->toArray();
+        // $ng_words = NgWord::all()->pluck('ng_word')->toArray();
 
-        for($i=0; $i<count($ng_words); $i++) {
-            if (strpos($content, $ng_words[$i]) !== false) {
-                return response('不適切な単語が含まれている可能性があります。', 400);
-            }
-        }
+        // for($i=0; $i<count($ng_words); $i++) {
+        //     if (strpos($content, $ng_words[$i]) !== false) {
+        //         return response('不適切な単語が含まれている可能性があります。', 400);
+        //     }
+        // }
 
-        Contact::create([
-            'name' => $name,
-            'email' => $email,
-            'content' => $content,
-            'read_flag' => false
-        ]);
+        // Contact::create([
+        //     'name' => $name,
+        //     'email' => $email,
+        //     'content' => $content,
+        //     'read_flag' => false
+        // ]);
 
         // リマインダーメールを送信
         try {
