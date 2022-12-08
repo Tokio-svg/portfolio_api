@@ -7,6 +7,7 @@ use App\Models\Contact;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -29,7 +30,14 @@ class AdminController extends Controller
      *
      */
     public function delete(Request $request) {
-        Contact::destroy($request->id);
+        try {
+            DB::beginTransaction();
+            Contact::destroy($request->id);
+            DB::commit();
+        } catch(Exception $ex) {
+            Log::debug($ex->getMessage());
+            DB::rollback();
+        }
         return redirect('/');
     }
 
@@ -39,8 +47,15 @@ class AdminController extends Controller
      *
      */
     public function read(Request $request) {
-        Contact::where('id', $request->id)
-            ->update(['read_flag' => true]);
+        try {
+            DB::beginTransaction();
+            Contact::where('id', $request->id)
+                ->update(['read_flag' => true]);
+            DB::commit();
+        } catch(Exception $ex) {
+            Log::debug($ex->getMessage());
+            DB::rollback();
+        }
 
         return redirect('/');
     }
@@ -56,14 +71,16 @@ class AdminController extends Controller
         }
 
         try {
-            Artisan::call('migrate:fresh');
-            Artisan::call('db:seed', [
-                '--force' => true
-            ]);
+            DB::beginTransaction();
+            // マイグレーションとシーディング実行
+            Artisan::call('migrate:fresh', [ '--force' => true ]);
+            Artisan::call('db:seed', [ '--force' => true ]);
 
+            DB::commit();
             return view('auth.login', [ 'message' => 'Setup OK' ]);
         } catch(Exception $ex) {
             Log::debug($ex->getMessage());
+            DB::rollback();
             return view('auth.login', [ 'message' => 'Setup Error' ]);
         }
     }
