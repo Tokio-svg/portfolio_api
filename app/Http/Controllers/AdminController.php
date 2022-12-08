@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Contact;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class AdminController extends Controller
 {
@@ -54,10 +55,17 @@ class AdminController extends Controller
             return view('auth.login', [ 'message' => 'Invalid Key' ]);
         }
 
-        Artisan::call('migrate:fresh');
-        Artisan::call('db:seed');
+        try {
+            Artisan::call('migrate:fresh');
+            Artisan::call('db:seed', [
+                '--force' => true
+            ]);
 
-        return view('auth.login', [ 'message' => 'Setup OK' ]);
+            return view('auth.login', [ 'message' => 'Setup OK' ]);
+        } catch(Exception $ex) {
+            Log::debug($ex->getMessage());
+            return view('auth.login', [ 'message' => 'Setup Error' ]);
+        }
     }
 
 }
