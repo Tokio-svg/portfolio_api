@@ -16,6 +16,17 @@ class ContactController extends Controller
 {
 
     /**
+     * サーバー起動の為のリクエスト処理
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index() :Response
+    {
+        return response('OK', 200);
+    }
+
+    /**
      * 送信されたフォーム情報をチェックしてDBに保存
      *
      * @param  \Illuminate\Http\Request  $request

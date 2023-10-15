@@ -6,5 +6,5 @@ use App\Http\Controllers\ContactController;
 
 
 Route::apiResource('/v1/contact', ContactController::class)->only([
-    'store'
+    'index', 'store'
 ]);
